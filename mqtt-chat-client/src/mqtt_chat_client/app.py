@@ -22,3 +22,18 @@ thread.start()
 def ping():
     response = 'Hello, World!'
     return response
+
+
+@app.route('/send', methods=['Put'])
+async def send_message():
+    message = (await request.get_json())
+    mqtt_client.send_chat_message(message)
+    return {"msg": "Success"}, 200
+
+
+@app.websocket('/ws')
+async def ws():
+    while True:
+        message = mqtt_client.get_chat_message()
+        if message:
+            await websocket.send(message)
