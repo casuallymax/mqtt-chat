@@ -33,7 +33,7 @@ def on_disconnect(client, userdata, flags, reason_code):
 
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
-    MQTTClient.latest_message = msg.payload
+    MQTTClient.latest_message.append(json.loads(msg.payload))
 
 
 class MQTTClient:
@@ -42,7 +42,7 @@ class MQTTClient:
     base_topic = '/aichat'
     current_topic = 'default'
 
-    latest_message = dict()
+    latest_message = []
 
     client_id = 'Paho-MQTTClientPPMX'
 
@@ -104,6 +104,9 @@ class MQTTClient:
         self.mqtt_client.subscribe(self.current_topic)
 
     def get_chat_message(self):
-        return self.latest_message
+        obj = {
+            "messages": self.latest_message
+        }
+        return json.dumps(obj)
 
 

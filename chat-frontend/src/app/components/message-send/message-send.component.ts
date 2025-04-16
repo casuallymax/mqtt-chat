@@ -9,6 +9,7 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MessageDefinition} from '../../type/types';
 import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import {Parser} from '../../util/parser';
 
 @Component({
   selector: 'app-message-send',
@@ -32,8 +33,8 @@ export class MessageSendComponent {
 
   messageForm = new FormGroup({
     topic: new FormControl('default', {nonNullable: true}),
-    name: new FormControl('', {nonNullable: true}),
-    message: new FormControl('', {nonNullable: true})
+    sender: new FormControl('', {nonNullable: true}),
+    text: new FormControl('', {nonNullable: true})
   });
 
   private sub!: Subscription;
@@ -44,11 +45,7 @@ export class MessageSendComponent {
   ) {}
 
   submitMessage() {
-    const message: MessageDefinition = {
-      topic: this.messageForm.getRawValue().topic,
-      sender: this.messageForm.getRawValue().name,
-      text: this.messageForm.getRawValue().message
-    }
+    const message: MessageDefinition = Parser.parse(this.messageForm.getRawValue())
     this.sub = this.apiService.sendMessage(message).subscribe((response) => {
       this.toastr.success(response.message, 'Send Message to ' + message.topic);
     }, (error) => {

@@ -21,7 +21,6 @@ export class ApiService {
   }
 
   sendMessage(message: MessageDefinition): Observable<any> {
-    console.log("test")
     return this.httpClient.put<any>(this.BASE_URL + '/send', message);
   }
 
