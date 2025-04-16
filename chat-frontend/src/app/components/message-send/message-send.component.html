@@ -1,0 +1,34 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      Send Message
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="p-4">
+    <form [formGroup]="messageForm" (ngSubmit)="submitMessage()">
+      <div class="row row-cols-1 row-cols-xl-2">
+        <mat-form-field class="col">
+          <mat-label>Topic</mat-label>
+          <input matInput type="text" formControlName="topic" value="default">
+        </mat-form-field>
+        <mat-form-field class="col">
+          <mat-label>Sender</mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col">
+          <mat-label>Message</mat-label>
+          <textarea matInput type="text" formControlName="message"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button mat-fab extended class="col mx-2" type="submit" [disabled]="!messageForm.valid">
+          <mat-icon>favourite</mat-icon>
+          Send
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
