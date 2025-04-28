@@ -12,13 +12,9 @@ export class ApiService {
 
   BASE_URL = "http://127.0.0.1:5000";
 
-  private webSocket$: WebSocketSubject<any>;
-
   constructor(
     private httpClient: HttpClient
-  ) {
-    this.webSocket$ = webSocket(this.BASE_URL + "/ws");
-  }
+  ) {}
 
   sendMessage(message: MessageDefinition): Observable<any> {
     return this.httpClient.put<any>(this.BASE_URL + '/send', message);
@@ -28,12 +24,8 @@ export class ApiService {
     this.httpClient.put<any>(this.BASE_URL + '/change_topic', topic);
   }
 
-  getNewMessage(): Observable<any> {
-    return this.webSocket$.asObservable();
-  }
-
-  closeConnection() {
-    this.webSocket$.complete();
+  getNewMessage(): Observable<MessageDefinition[]> {
+    return this.httpClient.get<MessageDefinition[]>(this.BASE_URL + '/get')
   }
 
 }

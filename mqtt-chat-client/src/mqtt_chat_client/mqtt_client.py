@@ -103,10 +103,7 @@ class MQTTClient:
         self.current_topic = topic
         self.mqtt_client.subscribe(self.current_topic)
 
-    def get_chat_message(self):
-        obj = {
-            "messages": self.latest_message
-        }
-        return json.dumps(obj)
+    def get_chat_messages(self):
+        return self.latest_message
 
 
