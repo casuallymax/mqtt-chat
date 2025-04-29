@@ -20,8 +20,8 @@ export class ApiService {
     return this.httpClient.put<any>(this.BASE_URL + '/send', message);
   }
 
-  changeTopic(topic: string) {
-    this.httpClient.put<any>(this.BASE_URL + '/change_topic', topic);
+  changeTopic(topic: any): Observable<any> {
+    return this.httpClient.put<any>(this.BASE_URL + '/change_topic', topic);
   }
 
   getNewMessage(): Observable<MessageDefinition[]> {

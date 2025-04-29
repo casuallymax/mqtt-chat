@@ -28,7 +28,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subs.push(timer(0,5000).pipe(
+    this.subs.push(timer(0,2500).pipe(
       switchMap(() => this.apiService.getNewMessage())
     ).subscribe((messages) => {
       this.storedMessages = messages;

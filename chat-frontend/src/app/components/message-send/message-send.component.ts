@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ApiService} from '../../service/api.service';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
@@ -29,7 +29,7 @@ import {Parser} from '../../util/parser';
   templateUrl: './message-send.component.html',
   styleUrl: './message-send.component.scss'
 })
-export class MessageSendComponent {
+export class MessageSendComponent implements OnDestroy {
 
   messageForm = new FormGroup({
     topic: new FormControl('default', {nonNullable: true}),
@@ -43,6 +43,11 @@ export class MessageSendComponent {
     private apiService: ApiService,
     private toastr: ToastrService
   ) {}
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
 
   submitMessage() {
     const message: MessageDefinition = Parser.parse(this.messageForm.getRawValue())
