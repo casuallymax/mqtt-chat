@@ -33,7 +33,12 @@ def on_disconnect(client, userdata, flags, reason_code):
 
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
+    print(MQTTClient.latest_message)
     MQTTClient.latest_message.append(json.loads(msg.payload))
+
+
+def on_subscribe(client, userdata, mid, reason_code_list):
+    MQTTClient.latest_message = []
 
 
 class MQTTClient:
@@ -58,6 +63,7 @@ class MQTTClient:
         self.mqtt_client.on_connect = on_connect
         self.mqtt_client.on_message = on_message
         self.mqtt_client.on_disconnect = on_disconnect
+        self.mqtt_client.on_subscribe = on_subscribe
         self.set_will()
         self.mqtt_client.connect(self.base_url, self.base_port)
 
@@ -87,6 +93,9 @@ class MQTTClient:
             "topic": message["topic"]
         }
 
+        if self.current_topic != message["topic"]:
+            self.change_topic(message["topic"])
+
         self.mqtt_client.publish(
             self.base_topic + "/" + message["topic"],
             json.dumps(payload),
@@ -95,15 +104,14 @@ class MQTTClient:
             self.publish_properties
         )
 
-        if self.current_topic != message["topic"]:
-            self.change_topic(message["topic"])
-
     def change_topic(self, topic):
-        self.mqtt_client.unsubscribe(self.current_topic)
+        self.mqtt_client.unsubscribe(self.base_topic + "/" + self.current_topic)
         self.current_topic = topic
-        self.mqtt_client.subscribe(self.current_topic)
+        print(self.latest_message)
+        self.mqtt_client.subscribe(self.base_topic + "/" + self.current_topic)
 
     def get_chat_messages(self):
+        print(self.latest_message)
         return self.latest_message
 
 

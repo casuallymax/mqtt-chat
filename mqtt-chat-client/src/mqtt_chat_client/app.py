@@ -25,3 +25,10 @@ async def send_message():
 @app.route('/get')
 async def get_messages():
     return mqtt_client.get_chat_messages(), 200
+
+
+@app.route('/change_topic', methods=['Put'])
+async def change_topic():
+    req = (await request.get_json())
+    mqtt_client.change_topic(req["topic"])
+    return {"msg": "Success"}, 200

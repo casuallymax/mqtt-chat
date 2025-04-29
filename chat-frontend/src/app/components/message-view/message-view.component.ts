@@ -3,10 +3,6 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/mat
 import {ApiService} from '../../service/api.service';
 import {MessageDefinition} from '../../type/types';
 import {catchError, Observable, of, Subject, Subscription, switchMap, takeUntil, timer} from 'rxjs';
-import {Parser} from '../../util/parser';
-import {MatFabButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-message-view',
@@ -14,10 +10,7 @@ import {AsyncPipe} from '@angular/common';
     MatCard,
     MatCardTitle,
     MatCardHeader,
-    MatCardContent,
-    MatFabButton,
-    MatIcon,
-    AsyncPipe
+    MatCardContent
   ],
   standalone: true,
   templateUrl: './message-view.component.html',
