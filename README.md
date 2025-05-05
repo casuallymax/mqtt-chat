@@ -11,7 +11,7 @@ Für die Installation siehe Poetry Docu: https://python-poetry.org/docs/
 
 Installieren der Dependencies:
 ```bash
-cd mqtt_backend
+cd mqtt-chat-client
 poetry install
 ```
 
@@ -29,7 +29,7 @@ poetry run quart run
 
 Installation der Anwendung:
 ```bash
-cd mqtt_frontend
+cd chat-frontend
 npm install
 ```
 
